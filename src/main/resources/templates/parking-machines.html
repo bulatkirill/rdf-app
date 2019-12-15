@@ -14,24 +14,19 @@
                 <table class="table table-hover" id="dev-table">
                     <thead>
                     <tr>
+                        <th class="col-md-6 col-sm-6">URI</th>
                         <th class="col-md-6 col-sm-6">Object id</th>
-                        <th class="col-md-6 col-sm-6">Typ</th>
                     </tr>
                     </thead>
                     <tbody>
                     <th:block th:each="record : ${records}">
                         <tr>
                             <td style="word-wrap: break-word">
-<!--                                <a href="#" th:href="@{{recordDetailLink}/{orderId}(orderId=${record.recordId},-->
-<!--                            recordDetailLink=${recordDetailLink})}" th:text="${record.subject}"></a>-->
-                                Link to detail
+                                <a href="#" th:href="@{http://localhost:8080/parkingMachines/{objectId}
+                                (objectId=${#strings.substring(record.value, 0, #strings.indexOf(record.value, '^'))})}"
+                                   th:text="${record.key}"></a>
                             </td>
-<!--                            <div class="text-center" th:replace="fragments/recordType :: recordType-->
-<!--                            (recordType=${record.recordType.toString()})">...-->
-<!--                            </div>-->
-<!--                            <td th:text="${record.amountCZK} + ' CZK'">...</td>-->
-                            <td th:text="${record}">...</td>
-<!--                            <td class="text-center" th:text="${#dates.format(record.retrieval.date, 'dd-MM-yyyy')}">-->
+                            <td th:text="${record.value}">...</td>
                         </tr>
                     </th:block>
                     </tbody>
