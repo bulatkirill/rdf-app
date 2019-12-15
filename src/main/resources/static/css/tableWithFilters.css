@@ -1,0 +1,83 @@
+.main-page-text {
+    font-size: 1.72rem;
+    /*font-size: 1.52rem;*/
+}
+
+#dev-table {
+    table-layout: fixed;
+}
+
+#dev-table td {
+    overflow: hidden;
+}
+
+/*pagination*/
+
+#wrapper {
+    text-align: center;
+}
+
+.pagination {
+    display: inline-block;
+}
+
+.pagination div {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+}
+
+/* Style the active/current link */
+.pagination div.active, .pagination div.active a {
+    background-color: dodgerblue;
+    color: white;
+}
+
+/* Add a grey background color on mouse-over */
+.pagination div:hover:not(.active) {
+    background-color: #ddd;
+}
+
+/*pagination end*/
+
+.frame {
+    height: 32px; /* equals max image height */
+    width: 100px;
+    text-align: center;
+    margin: 1em 0;
+}
+
+.helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.navbar-header img {
+    vertical-align: middle;
+    max-height: 32px;
+    max-width: 100px;
+}
+
+#slideshow > div img {
+    max-width: 100%;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+}
+
+.box {
+    border: 2px dashed #dadada;
+    margin-bottom: 5px;
+}
+
+.box .box-content {
+    padding: 16px;
+}
+
+.box .box-content p {
+    word-wrap: break-word;
+}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Periodicity</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td th:fragment="periodicity (val)" th:switch="${val}">
+            <div th:case="dayli" th:text="denní"></div>
+            <div th:case="weekly" th:text="tydenní"></div>
+            <span th:case="monthly" th:text="měsíční"></span>
+            <span th:case="quarterly" th:text="čtvrtletní"></span>
+            <span th:case="yearly" th:text="roční"></span>
+            <span th:case="aperiodic" th:text="aperiodická"></span>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

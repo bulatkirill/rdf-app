@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Authority Role</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td th:fragment="authorityRole (val)" th:switch="${val}">
+            <div th:case="supplier" th:text="Dodavatel"></div>
+            <div th:case="customer" th:text="Zákazník"></div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

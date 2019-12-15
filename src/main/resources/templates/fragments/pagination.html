@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Pagination</title>
+</head>
+<body>
+<div id="wrapper" th:fragment="pagination">
+    <div class="pagination">
+        <div th:if="${firstPageNumber != currentPageNumber}">
+            <a href="#" th:href="${firstPage.toString()}">&laquo;</a>
+        </div>
+        <div th:if="${previousPageNumber != currentPageNumber}">
+            <a href="#" th:href="${previousPage.toString()}" th:text="${previousPageNumber} + 1"></a>
+        </div>
+        <div class="active">
+            <a href="#" th:href="${currentPage.toString()}" th:text="${currentPageNumber} + 1"></a>
+        </div>
+        <div th:if="${nextPageNumber != currentPageNumber}">
+            <a href="#" th:href="${nextPage.toString()}" th:text="${nextPageNumber} + 1">NexPage</a>
+        </div>
+        <div th:if="${lastPageNumber != currentPageNumber}">
+            <a href="#" th:href="${lastPage.toString()}">&raquo;</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
