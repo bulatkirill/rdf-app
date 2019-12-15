@@ -1,0 +1,78 @@
+<Silk>
+	<Prefixes>
+		<Prefix id="kbrmc" namespace="http://www.kyrylo.bulat.com/resource/mestskacasti/"/>
+		<Prefix id="rdf" namespace="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+		<Prefix id="kbo" namespace="http://www.kyrylo.bulat.com/resource/organizace/"/>
+		<Prefix id="kbr" namespace="http://www.kyrylo.bulat.com/resource/"/>
+		<Prefix id="kblmc" namespace="http://www.kyrylo.bulat.com/ciselniky/mestskacast"/>
+		<Prefix id="kbrwcp" namespace="http://www.kyrylo.bulat.com/resource/wcprice/"/>
+		<Prefix id="kblttn" namespace="http://www.kyrylo.bulat.com/ciselniky/trashtypename"/>
+		<Prefix id="kblct" namespace="http://www.kyrylo.bulat.com/resource/containertype"/>
+		<Prefix id="kbrto" namespace="http://www.kyrylo.bulat.com/resource/tridodpad/"/>
+		<Prefix id="kbrwc" namespace="http://www.kyrylo.bulat.com/resource/wc/"/>
+		<Prefix id="owl" namespace="http://www.w3.org/2002/07/owl#"/>
+		<Prefix id="skos" namespace="http://www.w3.org/2004/02/skos/core#"/>
+		<Prefix id="schema" namespace="http://schema.org/"/>
+		<Prefix id="rdfs" namespace="http://www.w3.org/2000/01/rdf-schema#"/>
+		<Prefix id="kbrttn" namespace="http://www.kyrylo.bulat.com/resource/trashtypename/"/>
+		<Prefix id="kblwcp" namespace="http://www.kyrylo.bulat.com/cisleniky/wcprice"/>
+		<Prefix id="kbrp" namespace="http://www.kyrylo.bulat.com/resource/parkomaty/"/>
+		<Prefix id="kbrct" namespace="http://www.kyrylo.bulat.com/resource/containertype/"/>
+	</Prefixes>
+	<DataSources>
+		<Dataset id="parkomaty" type="file">
+			<Param name="file" value="result_parkomaty.ttl"/>
+			<Param name="format" value="Turtle"/>
+			<Param name="graph" value=""/>
+		</Dataset>
+		<Dataset id="wc" type="file">
+			<Param name="file" value="result_wc.ttl"/>
+			<Param name="format" value="Turtle"/>
+			<Param name="graph" value=""/>
+		</Dataset>
+	</DataSources>
+	<Interlinks>
+		<Interlink id="parkomaty_wc">
+			<SourceDataset dataSource="parkomaty" var="a" typeUri="http://schema.org/ParkingFacility">
+				<RestrictTo>
+
+				</RestrictTo>
+			</SourceDataset>
+			<TargetDataset dataSource="wc" var="b" typeUri="http://schema.org/PublicToilet">
+				<RestrictTo>
+
+				</RestrictTo>
+			</TargetDataset>
+			<LinkageRule linkType="owl:sameAs">
+				<Aggregate id="average1" required="false" weight="1" type="average">
+					<Compare id="longitude_num" required="false" weight="1" metric="num" threshold="1.0E-4" indexing="true">
+						<Input id="longitude1" path="/schema:geo/schema:longitude"/>
+						<Input id="longitude2" path="/schema:geo/schema:longitude"/>
+						<Param name="minValue" value="-Infinity"/>
+						<Param name="maxValue" value="Infinity"/>
+					</Compare>
+					<Compare id="latitude_num" required="false" weight="1" metric="num" threshold="1.0E-4" indexing="true">
+						<Input id="latitude1" path="/schema:geo/schema:latitude"/>
+						<Input id="latitude2" path="/schema:geo/schema:latitude"/>
+						<Param name="minValue" value="-Infinity"/>
+						<Param name="maxValue" value="Infinity"/>
+					</Compare>
+				</Aggregate>
+				<Filter/>
+			</LinkageRule>
+			<Outputs>
+				<Output id="parkomaty_wc_output"/>
+			</Outputs>
+		</Interlink>
+	</Interlinks>
+	<Transforms>
+
+	</Transforms>
+	<Outputs>
+		<Dataset id="parkomaty_wc_output" type="file">
+			<Param name="file" value="parkomaty_wc"/>
+			<Param name="format" value="N-Triples"/>
+			<Param name="graph" value=""/>
+		</Dataset>
+	</Outputs>
+</Silk>

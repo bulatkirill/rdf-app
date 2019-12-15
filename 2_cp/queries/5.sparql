@@ -1,0 +1,30 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX schema: <http://schema.org/>
+PREFIX kbr: <http://www.kyrylo.bulat.com/resource/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX kbrwcp: <http://www.kyrylo.bulat.com/resource/wcprice/> 
+
+CONSTRUCT {
+	?wc a schema:PublicToilet;
+		kbr:objectid ?objectId;
+    	schema:address ?address, ?parkomatAddress;
+      	kbr:openingHours ?openingHours ;
+   		kbr:cena ?price.
+}
+WHERE {
+  ?wc a schema:PublicToilet;
+        	kbr:objectid ?objectId;
+	      	kbr:openingHours ?openingHours ;
+   			kbr:cena ?price.  
+  
+  	?parkomaty a schema:ParkingFacility;
+              owl:sameAs ?wc;
+              schema:address ?parkomatAddress
+    
+  OPTIONAL {
+	?wc  schema:address ?address.
+  }
+}
+
+
+# For toilets that are  close to parking machine extend information about their address by address of the parking machine from parking machine dataset. Match toilets with and without address. 

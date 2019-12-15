@@ -1,0 +1,26 @@
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX schema: <http://schema.org/>
+PREFIX kbr: <http://www.kyrylo.bulat.com/resource/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX kbrwcp: <http://www.kyrylo.bulat.com/resource/wcprice/> 
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT
+?trashtypename (if(count(?tridodpad) > 4000, "More than 4000", count(?tridodpad)) as ?count)
+WHERE {
+  ?tridodpad a schema:Place;
+        	kbr:objectid ?objectId;
+         	kbr:trashtypename ?trashtypename;
+  			kbr:containertype ?containertype.
+
+  ?trashtypename a skos:Concept;
+  				 skos:notation ?notation.
+
+}
+GROUP BY ?trashtypename
+HAVING(count(?tridodpad) > 1500)
+ORDER BY DESC(count(?tridodpad))
+
+
+# select tritotpad instances and group them by type of trash. Select only trash types that have more than 1500 instances

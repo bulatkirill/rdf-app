@@ -1,0 +1,20 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX schema: <http://schema.org/>
+PREFIX kbr: <http://www.kyrylo.bulat.com/resource/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT distinct ?objectId ?stationid
+WHERE {
+  ?tridodpad a schema:Place;
+        	kbr:objectid ?objectId;
+      		kbr:stationid ?stationid;	
+  .
+  FILTER(?stationid > 5000).
+  
+  ?parkomaty a schema:ParkingFacility;
+            owl:sameAs ?tridodpad.
+}
+LIMIT 50
+
+# Find all tridodpad instances that are close to parking machine and their station id is higher then 5000

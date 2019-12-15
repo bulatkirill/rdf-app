@@ -1,0 +1,32 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX schema: <http://schema.org/>
+PREFIX kbr: <http://www.kyrylo.bulat.com/resource/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+
+CONSTRUCT {
+	?tridodpad kbr:objectid ?objectId;
+    ?hasAddress ?address. 
+} WHERE {
+  BIND(skos:notation AS ?label).
+  BIND(schema:address AS ?hasAddress)
+  
+  ?tridodpad a schema:Place;
+        	kbr:objectid ?objectId;
+         	kbr:trashtypename ?trashtypename;
+  			kbr:containertype ?containertype.
+  
+  ?trashtypename a skos:Concept;
+                 ?label "Plast"@cs.
+  
+  ?containertype a skos:Concept;
+  				 ?label "240 normální HV"@cs .
+  
+  ?parkomaty a schema:ParkingFacility;
+            owl:sameAs ?tridodpad;
+            ?hasAddress ?address.			
+}
+LIMIT 50
+# Create triples for tridodpad instances with ID and address based on address of the parking machine that are close to them. Select only  tridodpad instances that are for "Plast" type of trash and container type is "240 normální HV".

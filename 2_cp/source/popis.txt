@@ -1,0 +1,14 @@
+1. Odkaz na zdrojová data: http://opendata.iprpraha.cz/CUR/DOP/DOP_ZPS_Parkomaty_b/S_JTSK/DOP_ZPS_Parkomaty_b.json. Odkaz na dokumentaci datové sady je na této adrese http://www.geoportalpraha.cz/cs/fulltext_geoportal?id=8605CC9C-64F4-45EE-817A-8F43D470ACB1 . Formát souboru je JSON, pro triplifikaci jsem použil skript napsaný v NodeJS.
+
+spuštění skriptu:
+node parkomaty-parser.js
+
+2. Odkaz na zdrojová data: http://opendata.iprpraha.cz/CUR/ZPK/ZPK_O_Kont_TOitem_b/WGS_84/ZPK_O_Kont_TOitem_b.json. Odkaz na dokumentaci datové sady je na této adrese http://www.geoportalpraha.cz/cs/fulltext_geoportal?id=8B2B3E58-1B3F-4870-B205-82453E90A2F8 . Formát souboru je JSON, pro triplifikaci jsem použil skript napsaný v NodeJS.
+
+spuštění skriptu:
+node tridodpad-parser.js
+
+3. Odkaz na zdrojová data: http://opendata.iprpraha.cz/CUR/FSV/FSV_VerejnaWC_b/WGS_84/FSV_VerejnaWC_b.json. Odkaz na dokumentaci datové sady http://www.geoportalpraha.cz/cs/fulltext_geoportal?id=27028B3A-9442-44BC-9EA2-4DF8A2DF9940. Formát souboru je JSON, pro triplifikaci jsem použil skript napsaný v NodeJs.
+
+spuštění skriptu:
+node wc-parser.js

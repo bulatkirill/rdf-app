@@ -1,0 +1,25 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX schema: <http://schema.org/>
+PREFIX kbr: <http://www.kyrylo.bulat.com/resource/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+ASK {
+	?check a schema:PublicToilet ;
+        kbr:openingHours ?openingHours.
+  
+    ?parkomaty a schema:ParkingFacility;
+            schema:containedInPlace ?place;
+  			owl:sameAs ?wc.
+  
+  ?place a skos:Concept ;
+   skos:notation ?district .
+}
+VALUES (?district) {
+  ("P1"@cs)
+  ("P15"@cs)
+  ("P2"@cs)
+  ("P4"@cs)
+}
+# Is there a public toilet near the parking machine that is situated in any of the next Prague district: "P1", "P15", "P2", "P4"	
