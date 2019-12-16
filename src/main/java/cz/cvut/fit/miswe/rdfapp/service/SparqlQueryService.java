@@ -3,6 +3,7 @@ package cz.cvut.fit.miswe.rdfapp.service;
 import cz.cvut.fit.miswe.rdfapp.model.ParkingMachine;
 import org.apache.jena.rdf.model.RDFNode;
 
+import java.util.List;
 import java.util.Map;
 
 public interface SparqlQueryService {
@@ -13,7 +14,7 @@ public interface SparqlQueryService {
 
     Map<String, String> first();
     Map<String, String> second();
-    void third();
+    Map<String, List<String>> third();
 
     Map<RDFNode, RDFNode> getPublicToilets();
 

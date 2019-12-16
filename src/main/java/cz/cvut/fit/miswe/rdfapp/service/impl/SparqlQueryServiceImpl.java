@@ -2,11 +2,14 @@ package cz.cvut.fit.miswe.rdfapp.service.impl;
 
 import cz.cvut.fit.miswe.rdfapp.model.ParkingMachine;
 import cz.cvut.fit.miswe.rdfapp.service.SparqlQueryService;
+import org.apache.jena.graph.Triple;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.RDFNode;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -59,6 +62,28 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
             "            owl:sameAs ?tridodpad.\n" +
             "}\n" +
             "LIMIT 50\n";
+
+    private static final String THIRD = "CONSTRUCT {\n" +
+            "\t?wc a schema:PublicToilet;\n" +
+            "\t\tkbr:objectid ?objectId;\n" +
+            "    \tschema:address ?address, ?parkomatAddress;\n" +
+            "      \tkbr:openingHours ?openingHours ;\n" +
+            "   \t\tkbr:cena ?price.\n" +
+            "}\n" +
+            "WHERE {\n" +
+            "  ?wc a schema:PublicToilet;\n" +
+            "        \tkbr:objectid ?objectId;\n" +
+            "\t      \tkbr:openingHours ?openingHours ;\n" +
+            "   \t\t\tkbr:cena ?price.  \n" +
+            "  \n" +
+            "  \t?parkomaty a schema:ParkingFacility;\n" +
+            "              owl:sameAs ?wc;\n" +
+            "              schema:address ?parkomatAddress\n" +
+            "    \n" +
+            "  OPTIONAL {\n" +
+            "\t?wc  schema:address ?address.\n" +
+            "  }\n" +
+            "}\n";
 
     private final Map<String, String> prefixes;
 
@@ -146,8 +171,25 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
     }
 
     @Override
-    public void third() {
-
+    public Map<String, List<String>> third() {
+        Map<String, List<String>> result = new LinkedHashMap<>();
+        ParameterizedSparqlString pss = new ParameterizedSparqlString();
+        pss.setCommandText(THIRD);
+        pss.setNsPrefixes(prefixes);
+        Query query = QueryFactory.create(pss.toString(), Syntax.syntaxARQ);
+        try (QueryExecution queryExecution = QueryExecutionFactory.
+                createServiceRequest(SPARQL_API, query)) {
+            Iterator<Triple> results = queryExecution.execConstructTriples();
+            while (results.hasNext()) {
+                Triple solution = results.next();
+//                if(result.get(solution.getSubject())) {
+//                    result.get(solution.getSubject()).add()
+//                }
+                System.out.println(solution.toString());
+//                result.put(solution.get("objectId").toString(), solution.get("stationid").toString());
+            }
+        }
+        return result;
     }
 
 

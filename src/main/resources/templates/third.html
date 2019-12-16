@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/assets :: headerFragment">
+    <title id="pageTitle">Third Sparql query</title>
+</head>
+<body onload="onStart()">
+<script type="application/javascript">
+    function onStart() {
+        code = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+            "PREFIX schema: <http://schema.org/>\n" +
+            "PREFIX kbr: <http://www.kyrylo.bulat.com/resource/>\n" +
+            "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +
+            "PREFIX kbrwcp: <http://www.kyrylo.bulat.com/resource/wcprice/> \n" +
+            "\n" +
+            "CONSTRUCT {\n" +
+            "\t?wc a schema:PublicToilet;\n" +
+            "\t\tkbr:objectid ?objectId;\n" +
+            "    \tschema:address ?address, ?parkomatAddress;\n" +
+            "      \tkbr:openingHours ?openingHours ;\n" +
+            "   \t\tkbr:cena ?price.\n" +
+            "}\n" +
+            "WHERE {\n" +
+            "  ?wc a schema:PublicToilet;\n" +
+            "        \tkbr:objectid ?objectId;\n" +
+            "\t      \tkbr:openingHours ?openingHours ;\n" +
+            "   \t\t\tkbr:cena ?price.  \n" +
+            "  \n" +
+            "  \t?parkomaty a schema:ParkingFacility;\n" +
+            "              owl:sameAs ?wc;\n" +
+            "              schema:address ?parkomatAddress\n" +
+            "    \n" +
+            "  OPTIONAL {\n" +
+            "\t?wc  schema:address ?address.\n" +
+            "  }\n" +
+            "}\n" +
+            "\n" +
+            "\n" +
+            "# For toilets that are  close to parking machine extend information about their address by address of the parking machine from parking machine dataset. Match toilets with and without address. \n";
+        document.getElementById("code").innerText = code;
+    }
+</script>
+<div th:replace="fragments/header :: header">...</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <div th:if="${records != null and not #lists.isEmpty(records)}">
+                <table class="table table-hover" id="dev-table">
+                    <thead>
+                    <tr>
+                        <th class="col-md-6 col-sm-6">Object id</th>
+                        <th class="col-md-6 col-sm-6">Station id</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="record : ${records}">
+                        <tr>
+                            <td style="word-wrap: break-word" th:text="${record.key}"></td>
+                            <td th:text="${record.value}">...</td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+            <div th:unless="${records != null and not #lists.isEmpty(records)}">
+                No records in response to a query
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <p>Executed query:</p>
+        </div>
+        <div class="col-md-10">
+            <p id="code" style="border: 1px solid #ccc;"></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
