@@ -28,6 +28,31 @@ public class AppController {
         return modelAndView;
     }
 
+    @GetMapping(path = "/first")
+    public ModelAndView first() {
+        ModelAndView modelAndView = new ModelAndView();
+        sparqlQueryService.first();
+        modelAndView.addObject("records", sparqlQueryService.getParkingMachines());
+        modelAndView.setViewName("parking-machines");
+        return modelAndView;
+    }
+
+    @GetMapping(path = "/second")
+    public ModelAndView second() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("records", sparqlQueryService.getParkingMachines());
+        modelAndView.setViewName("parking-machines");
+        return modelAndView;
+    }
+
+    @GetMapping(path = "/third")
+    public ModelAndView third() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("records", sparqlQueryService.getParkingMachines());
+        modelAndView.setViewName("parking-machines");
+        return modelAndView;
+    }
+
 
     @Autowired
     public void setSparqlQueryService(SparqlQueryService sparqlQueryService) {

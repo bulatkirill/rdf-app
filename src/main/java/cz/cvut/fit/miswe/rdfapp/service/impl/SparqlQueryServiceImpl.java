@@ -31,6 +31,34 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
 
     public static final String SPARQL_API = "http://localhost:3030/all1/sparql";
 
+    private static final String FIRST = "SELECT\n" +
+            "?trashtypename (if(count(?tridodpad) > 4000, \"More than 4000\", count(?tridodpad)) as ?count)\n" +
+            "WHERE {\n" +
+            "  ?tridodpad a schema:Place;\n" +
+            "        \tkbr:objectid ?objectId;\n" +
+            "         \tkbr:trashtypename ?trashtypename;\n" +
+            "  \t\t\tkbr:containertype ?containertype.\n" +
+            "\n" +
+            "  ?trashtypename a skos:Concept;\n" +
+            "  \t\t\t\t skos:notation ?notation.\n" +
+            "\n" +
+            "}\n" +
+            "GROUP BY ?trashtypename\n" +
+            "HAVING(count(?tridodpad) > 1500)\n" +
+            "ORDER BY DESC(count(?tridodpad))\n";
+
+    private final Map<String, String> prefixes;
+
+    {
+        prefixes = new LinkedHashMap<>();
+        prefixes.put("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
+        prefixes.put("schema", "http://schema.org/");
+        prefixes.put("kbr", "http://www.kyrylo.bulat.com/resource/");
+        prefixes.put("owl", "http://www.w3.org/2002/07/owl#");
+        prefixes.put("kbrwcp", "http://www.kyrylo.bulat.com/resource/wcprice/");
+        prefixes.put("skos", "http://www.w3.org/2004/02/skos/core#");
+    }
+
     @Override
     public Map<String, String> getParkingMachines() {
         Map<String, String> result = new LinkedHashMap<>();
@@ -66,6 +94,33 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
             }
         }
         return result;
+    }
+
+    @Override
+    public void first() {
+        ParameterizedSparqlString pss = new ParameterizedSparqlString();
+        pss.setCommandText(FIRST);
+        pss.setNsPrefixes(prefixes);
+        Query query = pss.asQuery();
+        try (QueryExecution queryExecution = QueryExecutionFactory.
+                createServiceRequest(SPARQL_API, query)) {
+            ResultSet results = queryExecution.execSelect();
+            while (results.hasNext()) {
+                QuerySolution solution = results.nextSolution();
+                System.out.println(solution.toString());
+            }
+        }
+
+    }
+
+    @Override
+    public void second() {
+
+    }
+
+    @Override
+    public void third() {
+
     }
 
 

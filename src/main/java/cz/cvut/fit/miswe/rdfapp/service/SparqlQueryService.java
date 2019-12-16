@@ -11,6 +11,10 @@ public interface SparqlQueryService {
 
     ParkingMachine getParkingMachine(String objectId);
 
+    void first();
+    void second();
+    void third();
+
     Map<RDFNode, RDFNode> getPublicToilets();
 
     Map<RDFNode, RDFNode> getWasteBins();
