@@ -39,8 +39,8 @@ public class AppController {
     @GetMapping(path = "/second")
     public ModelAndView second() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("records", sparqlQueryService.getParkingMachines());
-        modelAndView.setViewName("parking-machines");
+        modelAndView.addObject("records", sparqlQueryService.second());
+        modelAndView.setViewName("second");
         return modelAndView;
     }
 

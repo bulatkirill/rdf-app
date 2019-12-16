@@ -12,7 +12,7 @@ public interface SparqlQueryService {
     ParkingMachine getParkingMachine(String objectId);
 
     Map<String, String> first();
-    void second();
+    Map<String, String> second();
     void third();
 
     Map<RDFNode, RDFNode> getPublicToilets();

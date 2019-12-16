@@ -6,32 +6,26 @@
 <body onload="onStart()">
 <script type="application/javascript">
     function onStart() {
-        code = "\n" +
-            "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+        code = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
             "PREFIX schema: <http://schema.org/>\n" +
             "PREFIX kbr: <http://www.kyrylo.bulat.com/resource/>\n" +
             "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +
-            "PREFIX kbrwcp: <http://www.kyrylo.bulat.com/resource/wcprice/> \n" +
-            "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" +
+            "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
             "\n" +
-            "SELECT\n" +
-            "?trashtypename (if(count(?tridodpad) > 4000, \"More than 4000\", count(?tridodpad)) as ?count)\n" +
+            "SELECT distinct ?objectId ?stationid\n" +
             "WHERE {\n" +
             "  ?tridodpad a schema:Place;\n" +
             "        \tkbr:objectid ?objectId;\n" +
-            "         \tkbr:trashtypename ?trashtypename;\n" +
-            "  \t\t\tkbr:containertype ?containertype.\n" +
-            "\n" +
-            "  ?trashtypename a skos:Concept;\n" +
-            "  \t\t\t\t skos:notation ?notation.\n" +
-            "\n" +
+            "      \t\tkbr:stationid ?stationid;\t\n" +
+            "  .\n" +
+            "  FILTER(?stationid > 5000).\n" +
+            "  \n" +
+            "  ?parkomaty a schema:ParkingFacility;\n" +
+            "            owl:sameAs ?tridodpad.\n" +
             "}\n" +
-            "GROUP BY ?trashtypename\n" +
-            "HAVING(count(?tridodpad) > 1500)\n" +
-            "ORDER BY DESC(count(?tridodpad))\n" +
+            "LIMIT 50\n" +
             "\n" +
-            "\n" +
-            "# select tritotpad instances and group them by type of trash. Select only trash types that have more than 1500 instances"
+            "# Find all tridodpad instances that are close to parking machine and their station id is higher then 5000";
         document.getElementById("code").innerText = code;
     }
 </script>
@@ -43,8 +37,8 @@
                 <table class="table table-hover" id="dev-table">
                     <thead>
                     <tr>
-                        <th class="col-md-6 col-sm-6">Trash type</th>
-                        <th class="col-md-6 col-sm-6">Count</th>
+                        <th class="col-md-6 col-sm-6">Object id</th>
+                        <th class="col-md-6 col-sm-6">Station id</th>
                     </tr>
                     </thead>
                     <tbody>

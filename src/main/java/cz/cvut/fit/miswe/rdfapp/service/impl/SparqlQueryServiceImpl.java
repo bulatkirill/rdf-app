@@ -47,6 +47,19 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
             "HAVING(count(?tridodpad) > 1500)\n" +
             "ORDER BY DESC(count(?tridodpad))\n";
 
+    private static final String SECOND = "SELECT distinct ?objectId ?stationid\n" +
+            "WHERE {\n" +
+            "  ?tridodpad a schema:Place;\n" +
+            "        \tkbr:objectid ?objectId;\n" +
+            "      \t\tkbr:stationid ?stationid;\t\n" +
+            "  .\n" +
+            "  FILTER(?stationid > 5000).\n" +
+            "  \n" +
+            "  ?parkomaty a schema:ParkingFacility;\n" +
+            "            owl:sameAs ?tridodpad.\n" +
+            "}\n" +
+            "LIMIT 50\n";
+
     private final Map<String, String> prefixes;
 
     {
@@ -115,8 +128,21 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
     }
 
     @Override
-    public void second() {
-
+    public Map<String, String> second() {
+        Map<String, String> result = new LinkedHashMap<>();
+        ParameterizedSparqlString pss = new ParameterizedSparqlString();
+        pss.setCommandText(SECOND);
+        pss.setNsPrefixes(prefixes);
+        Query query = pss.asQuery();
+        try (QueryExecution queryExecution = QueryExecutionFactory.
+                createServiceRequest(SPARQL_API, query)) {
+            ResultSet results = queryExecution.execSelect();
+            while (results.hasNext()) {
+                QuerySolution solution = results.nextSolution();
+                result.put(solution.get("objectId").toString(), solution.get("stationid").toString());
+            }
+        }
+        return result;
     }
 
     @Override
