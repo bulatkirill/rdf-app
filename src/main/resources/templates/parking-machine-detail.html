@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/assets :: headerFragment">
+    <title id="pageTitle">Detail zaznamu</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header">...</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <table class="table table-hover" id="dev-table">
+                <thead>
+                <tr>
+                    <th colspan="2">
+                        Detail zaznamu
+                    </th>
+                </tr>
+                </thead>
+                <tr th:if="${record.uri != null}">
+                    <th class="col-md-6">Uri</th>
+                    <td th:text="${record.uri}" class="col-md-6"></td>
+                </tr>
+                <tr th:if="${record.objectId != null}">
+                    <th>Object id</th>
+                    <td th:text="${record.objectId}" class="col-md-6"></td>
+                </tr>
+                <tr th:if="${record.poskyt != null}">
+                    <th>Poskytovatel</th>
+                    <td th:text="${record.poskyt}">...</td>
+                </tr>
+                <tr th:if="${record.containedInPlace != null}">
+                    <th>Část Prahy</th>
+                    <td th:text="${record.containedInPlace}">...</td>
+                </tr>
+                <tr th:if="${record.address != null}">
+                    <th>Adresa</th>
+                    <td th:text="${record.address}">...</td>
+                </tr>
+                <tr th:if="${record.branchCode != null}">
+                    <th>Branch code</th>
+                    <td th:text="${record.branchCode}">...</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

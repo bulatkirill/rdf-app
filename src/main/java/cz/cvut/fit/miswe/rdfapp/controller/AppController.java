@@ -1,16 +1,11 @@
 package cz.cvut.fit.miswe.rdfapp.controller;
 
 import cz.cvut.fit.miswe.rdfapp.service.SparqlQueryService;
-import org.apache.jena.query.*;
-import org.apache.jena.rdf.model.RDFNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class AppController {
@@ -29,10 +24,9 @@ public class AppController {
     public ModelAndView getParkingMachines(@PathVariable String objectId) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("record", sparqlQueryService.getParkingMachine(objectId));
-//        modelAndView.setViewName("parking-machines");
+        modelAndView.setViewName("parking-machine-detail");
         return modelAndView;
     }
-
 
 
     @Autowired

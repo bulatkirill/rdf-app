@@ -4,10 +4,10 @@ import cz.cvut.fit.miswe.rdfapp.model.ParkingMachine;
 import cz.cvut.fit.miswe.rdfapp.service.SparqlQueryService;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.Statement;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Service
 public class SparqlQueryServiceImpl implements SparqlQueryService {
