@@ -1,0 +1,8 @@
+SELECT ?parkingMachine ?objectId ?poskyt ?containedInPlace ?address ?branchCode  
+                    WHERE {?parkingMachine a <http://schema.org/ParkingFacility>;  
+                    <http://www.kyrylo.bulat.com/resource/objectid> %s; 
+                    <http://www.kyrylo.bulat.com/resource/poskyt> ?poskyt; 
+                    <http://schema.org/containedInPlace> ?containedInPlace; 
+                    <http://schema.org/address> ?address; 
+                    <http://schema.org/branchCode> ?branchCode. 
+                    };
