@@ -97,7 +97,8 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
     }
 
     @Override
-    public void first() {
+    public Map<String, String> first() {
+        Map<String, String> result = new LinkedHashMap<>();
         ParameterizedSparqlString pss = new ParameterizedSparqlString();
         pss.setCommandText(FIRST);
         pss.setNsPrefixes(prefixes);
@@ -107,10 +108,10 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
             ResultSet results = queryExecution.execSelect();
             while (results.hasNext()) {
                 QuerySolution solution = results.nextSolution();
-                System.out.println(solution.toString());
+                result.put(solution.get("trashtypename").toString(), solution.get("count").toString());
             }
         }
-
+        return result;
     }
 
     @Override

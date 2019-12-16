@@ -11,7 +11,7 @@ public interface SparqlQueryService {
 
     ParkingMachine getParkingMachine(String objectId);
 
-    void first();
+    Map<String, String> first();
     void second();
     void third();
 
