@@ -7,10 +7,7 @@ import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.RDFNode;
 import org.springframework.stereotype.Service;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class SparqlQueryServiceImpl implements SparqlQueryService {
@@ -171,8 +168,8 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
     }
 
     @Override
-    public Map<String, List<String>> third() {
-        Map<String, List<String>> result = new LinkedHashMap<>();
+    public Map<String, List<Triple>> third() {
+        Map<String, List<Triple>> result = new LinkedHashMap<>();
         ParameterizedSparqlString pss = new ParameterizedSparqlString();
         pss.setCommandText(THIRD);
         pss.setNsPrefixes(prefixes);
@@ -182,11 +179,15 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
             Iterator<Triple> results = queryExecution.execConstructTriples();
             while (results.hasNext()) {
                 Triple solution = results.next();
-//                if(result.get(solution.getSubject())) {
-//                    result.get(solution.getSubject()).add()
-//                }
-                System.out.println(solution.toString());
-//                result.put(solution.get("objectId").toString(), solution.get("stationid").toString());
+                String subject = solution.getSubject().toString();
+                List<Triple> triples = result.get(subject);
+                if (triples != null) {
+                    triples.add(solution);
+                } else {
+                    triples = new ArrayList<>();
+                    triples.add(solution);
+                    result.put(subject, triples);
+                }
             }
         }
         return result;
