@@ -48,29 +48,12 @@
                     <thead>
                     <tr>
                         <th class="col-md-4 col-sm-4">Subject</th>
-                        <th class="col-md-6 col-sm-6">Predicate</th>
-                        <th class="col-md-6 col-sm-6">Object</th>
                     </tr>
                     </thead>
                     <tbody>
                     <th:block th:each="record : ${records}">
-                        <th:block th:each="triple : ${record.value}">
-                            <tr>
-                                <td style="word-wrap: break-word" th:text="${triple.getSubject().toString()}"></td>
-                                <td th:text="${triple.getPredicate().toString()}">...</td>
-                                <td th:text="${triple.getObject().toString()}">...</td>
-                            </tr>
-                        </th:block>
                         <tr>
-                            <td>
-                                Konec sekce
-                            </td>
-                            <td>
-                                Konec sekce
-                            </td>
-                            <td>
-                                Konec sekce
-                            </td>
+                            <td th:text="${record}">...</td>
                         </tr>
                     </th:block>
                     </tbody>

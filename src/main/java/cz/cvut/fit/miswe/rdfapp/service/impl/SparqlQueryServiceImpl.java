@@ -71,12 +71,13 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
             "  ?wc a schema:PublicToilet;\n" +
             "        \tkbr:objectid ?objectId;\n" +
             "\t      \tkbr:openingHours ?openingHours ;\n" +
-            "   \t\t\tkbr:cena ?price.  \n" +
+            "   \t\t\tkbr:cena ?priceEntity.  \n" +
             "  \n" +
             "  \t?parkomaty a schema:ParkingFacility;\n" +
             "              owl:sameAs ?wc;\n" +
-            "              schema:address ?parkomatAddress\n" +
-            "    \n" +
+            "              schema:address ?parkomatAddress.\n" +
+            "  \t?priceEntity a skos:Concept ;\n" +
+            "  \t\tskos:notation ?price .\n" +
             "  OPTIONAL {\n" +
             "\t?wc  schema:address ?address.\n" +
             "  }\n" +
