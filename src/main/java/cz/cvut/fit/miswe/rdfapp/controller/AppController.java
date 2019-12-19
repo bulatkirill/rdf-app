@@ -26,7 +26,8 @@ public class AppController {
             parkingMachines.put(key, parseStringInteger(value));
         });
         modelAndView.addObject("records", parkingMachines);
-        modelAndView.setViewName("parking-machines");
+        modelAndView.addObject("link", "parkingMachines");
+        modelAndView.setViewName("records");
         return modelAndView;
     }
 
@@ -42,6 +43,19 @@ public class AppController {
         parkingMachine.setBranchCode(parseStringInteger(parkingMachine.getBranchCode()));
         modelAndView.addObject("record", parkingMachine);
         modelAndView.setViewName("parking-machine-detail");
+        return modelAndView;
+    }
+
+    @GetMapping(path = "/tridOdpads")
+    public ModelAndView getTridOdpads() {
+        ModelAndView modelAndView = new ModelAndView();
+        Map<String, String> tridOdpads = sparqlQueryService.getTridOdpads();
+        tridOdpads.forEach((key, value) -> {
+            tridOdpads.put(key, parseStringInteger(value));
+        });
+        modelAndView.addObject("records", tridOdpads);
+        modelAndView.addObject("link", "tridOdpads");
+        modelAndView.setViewName("records");
         return modelAndView;
     }
 

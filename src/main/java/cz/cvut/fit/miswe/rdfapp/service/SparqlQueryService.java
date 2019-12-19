@@ -13,6 +13,9 @@ public interface SparqlQueryService {
 
     ParkingMachine getParkingMachine(String objectId);
 
+    Map<String, String> getTridOdpads();
+
+
     Map<String, String> first();
     Map<String, String> second();
     Map<String, List<Triple>> third();

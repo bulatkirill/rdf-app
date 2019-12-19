@@ -22,8 +22,8 @@
                     <th:block th:each="record : ${records}">
                         <tr>
                             <td style="word-wrap: break-word">
-                                <a href="#" th:href="@{http://localhost:8080/parkingMachines/{objectId}
-                                (objectId=${record.value})}"
+                                <a href="#" th:href="@{http://localhost:8080/{path}/{objectId}
+                                (objectId=${record.value}, path=${link})}"
                                    th:text="${record.key}"></a>
                             </td>
                             <td th:text="${record.value}">...</td>

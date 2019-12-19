@@ -18,6 +18,12 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
             "SELECT ?%s ?%s WHERE {?%s a <http://schema.org/ParkingFacility>; " +
                     "<http://www.kyrylo.bulat.com/resource/objectid> ?%s}" +
                     " ORDER BY ASC(?%s)", WC, OBJECT_ID, WC, OBJECT_ID, OBJECT_ID);
+
+    public static final String RECORDS_QUERY =
+            "SELECT ?uri ?objectId WHERE {?uri a <http://schema.org/%s>; " +
+                    "<http://www.kyrylo.bulat.com/resource/objectid> ?objectId}" +
+                    " ORDER BY ASC(?objectId)";
+
     public static final String PARKING_MACHINE_QUERY =
             "SELECT ?parkingMachine ?objectId ?poskyt ?containedInPlace ?address ?branchCode " +
                     "WHERE {?parkingMachine a <http://schema.org/ParkingFacility>; " +
@@ -103,20 +109,30 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
 
     @Override
     public Map<String, String> getParkingMachines() {
+        return getListCommon("ParkingFacility");
+    }
+
+    @Override
+    public Map<String, String> getTridOdpads() {
+        return getListCommon("Place");
+    }
+
+    private Map<String, String> getListCommon(String entityName) {
         Map<String, String> result = new LinkedHashMap<>();
-        Query query = QueryFactory.create(PARKING_MACHINES_QUERY);
+        Query query = QueryFactory.create(String.format(RECORDS_QUERY, entityName));
         try (QueryExecution queryExecution = QueryExecutionFactory.
                 createServiceRequest(SPARQL_API, query)) {
             ResultSet results = queryExecution.execSelect();
             while (results.hasNext()) {
                 QuerySolution solution = results.nextSolution();
-                RDFNode node = solution.get(WC);
-                RDFNode objectId = solution.get(OBJECT_ID);
+                RDFNode node = solution.get("uri");
+                RDFNode objectId = solution.get("objectId");
                 result.put(node.toString(), objectId.toString());
             }
         }
         return result;
     }
+
 
     @Override
     public ParkingMachine getParkingMachine(String objectId) {
