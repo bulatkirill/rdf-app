@@ -23,8 +23,7 @@ public class AppController {
         ModelAndView modelAndView = new ModelAndView();
         Map<String, String> parkingMachines = sparqlQueryService.getParkingMachines();
         parkingMachines.forEach((key, value) -> {
-            value = value.substring(0, value.indexOf('^'));
-            parkingMachines.put(key, value);
+            parkingMachines.put(key, parseStringInteger(value));
         });
         modelAndView.addObject("records", parkingMachines);
         modelAndView.setViewName("parking-machines");
