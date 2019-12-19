@@ -23,7 +23,7 @@
                         <tr>
                             <td style="word-wrap: break-word">
                                 <a href="#" th:href="@{http://localhost:8080/parkingMachines/{objectId}
-                                (objectId=${#strings.substring(record.value, 0, #strings.indexOf(record.value, '^'))})}"
+                                (objectId=${record.value})}"
                                    th:text="${record.key}"></a>
                             </td>
                             <td th:text="${record.value}">...</td>
