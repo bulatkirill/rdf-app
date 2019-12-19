@@ -1,6 +1,7 @@
 package cz.cvut.fit.miswe.rdfapp.service;
 
 import cz.cvut.fit.miswe.rdfapp.model.ParkingMachine;
+import cz.cvut.fit.miswe.rdfapp.model.TridOdpad;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.rdf.model.RDFNode;
 
@@ -24,4 +25,5 @@ public interface SparqlQueryService {
 
     Map<RDFNode, RDFNode> getWasteBins();
 
+    TridOdpad getTridOdpad(String objectId);
 }

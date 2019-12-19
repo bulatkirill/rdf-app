@@ -1,6 +1,7 @@
 package cz.cvut.fit.miswe.rdfapp.service.impl;
 
 import cz.cvut.fit.miswe.rdfapp.model.ParkingMachine;
+import cz.cvut.fit.miswe.rdfapp.model.TridOdpad;
 import cz.cvut.fit.miswe.rdfapp.service.SparqlQueryService;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.query.*;
@@ -39,6 +40,23 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
 
                     " ?containedInPlaceHelp a <http://www.w3.org/2004/02/skos/core#Concept>;" +
                     " <http://www.w3.org/2004/02/skos/core#notation> ?containedInPlace." +
+                    "}";
+
+    public static final String TRID_ODPAD_QUERY =
+            "SELECT ?uri ?objectId ?stationId ?trashTypeName ?celaningfrequencycode ?containerType " +
+                    "WHERE {?uri a <http://schema.org/Place>; " +
+                    "<http://www.kyrylo.bulat.com/resource/objectid> %s;" +
+                    "<http://www.kyrylo.bulat.com/resource/objectid> ?objectId;" +
+                    "<http://www.kyrylo.bulat.com/resource/stationid> ?stationId;" +
+                    "<http://www.kyrylo.bulat.com/resource/trashtypename> ?trashTypeNameHelp;" +
+                    "<http://www.kyrylo.bulat.com/resource/celaningfrequencycode> ?celaningfrequencycode;" +
+                    "<http://www.kyrylo.bulat.com/resource/containertype> ?containerTypeHelp." +
+                    "" +
+                    " ?trashTypeNameHelp a <http://www.w3.org/2004/02/skos/core#Concept>;" +
+                    " <http://www.w3.org/2004/02/skos/core#notation> ?trashTypeName." +
+
+                    " ?containerTypeHelp a <http://www.w3.org/2004/02/skos/core#Concept>;" +
+                    " <http://www.w3.org/2004/02/skos/core#notation> ?containerType." +
                     "}";
 
     public static final String SPARQL_API = "http://localhost:3030/all1/sparql";
@@ -149,6 +167,26 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
                 result.setContainedInPlace(solution.get("containedInPlace").toString());
                 result.setAddress(solution.get("address").toString());
                 result.setBranchCode(solution.get("branchCode").toString());
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public TridOdpad getTridOdpad(String objectId) {
+        TridOdpad result = new TridOdpad();
+        Query query = QueryFactory.create(String.format(TRID_ODPAD_QUERY, objectId));
+        try (QueryExecution queryExecution = QueryExecutionFactory.
+                createServiceRequest(SPARQL_API, query)) {
+            ResultSet results = queryExecution.execSelect();
+            while (results.hasNext()) {
+                QuerySolution solution = results.nextSolution();
+                result.setUri(solution.get("uri").toString());
+                result.setObjectId(solution.get("objectId").toString());
+                result.setStationId(solution.get("stationId").toString());
+                result.setTrashTypeName(solution.get("trashTypeName").toString());
+                result.setCleaningFrequencyCode(solution.get("celaningfrequencycode").toString());
+                result.setContainerType(solution.get("containerType").toString());
             }
         }
         return result;

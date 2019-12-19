@@ -1,6 +1,7 @@
 package cz.cvut.fit.miswe.rdfapp.controller;
 
 import cz.cvut.fit.miswe.rdfapp.model.ParkingMachine;
+import cz.cvut.fit.miswe.rdfapp.model.TridOdpad;
 import cz.cvut.fit.miswe.rdfapp.service.SparqlQueryService;
 import org.apache.jena.graph.Triple;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,20 @@ public class AppController {
         modelAndView.addObject("records", tridOdpads);
         modelAndView.addObject("link", "tridOdpads");
         modelAndView.setViewName("records");
+        return modelAndView;
+    }
+
+    @GetMapping(path = "/tridOdpads/{objectId}")
+    public ModelAndView getTridOdpad(@PathVariable String objectId) {
+        ModelAndView modelAndView = new ModelAndView();
+        TridOdpad tridOdpad = sparqlQueryService.getTridOdpad(objectId);
+        tridOdpad.setObjectId(parseStringInteger(tridOdpad.getObjectId()));
+        tridOdpad.setStationId(parseStringInteger(tridOdpad.getStationId()));
+        tridOdpad.setTrashTypeName(parseStringLanguage(tridOdpad.getTrashTypeName()));
+        tridOdpad.setCleaningFrequencyCode(parseStringInteger(tridOdpad.getCleaningFrequencyCode()));
+        tridOdpad.setContainerType(parseStringLanguage(tridOdpad.getContainerType()));
+        modelAndView.addObject("record", tridOdpad);
+        modelAndView.setViewName("trid-odpad-detail");
         return modelAndView;
     }
 
