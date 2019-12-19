@@ -23,10 +23,16 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
                     "WHERE {?parkingMachine a <http://schema.org/ParkingFacility>; " +
                     "<http://www.kyrylo.bulat.com/resource/objectid> %s;" +
                     "<http://www.kyrylo.bulat.com/resource/objectid> ?objectId;" +
-                    "<http://www.kyrylo.bulat.com/resource/poskyt> ?poskyt;" +
-                    "<http://schema.org/containedInPlace> ?containedInPlace;" +
+                    "<http://www.kyrylo.bulat.com/resource/poskyt> ?poskytovatel;" +
+                    "<http://schema.org/containedInPlace> ?containedInPlaceHelp;" +
                     "<http://schema.org/address> ?address;" +
                     "<http://schema.org/branchCode> ?branchCode." +
+                    "" +
+                    "?poskytovatel a <http://schema.org/Organization>;" +
+                    "<http://schema.org/identifier> ?poskyt." +
+
+                    " ?containedInPlaceHelp a <http://www.w3.org/2004/02/skos/core#Concept>;" +
+                    " <http://www.w3.org/2004/02/skos/core#notation> ?containedInPlace." +
                     "}";
 
     public static final String SPARQL_API = "http://localhost:3030/all1/sparql";

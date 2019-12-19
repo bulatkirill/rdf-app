@@ -1,5 +1,6 @@
 package cz.cvut.fit.miswe.rdfapp.controller;
 
+import cz.cvut.fit.miswe.rdfapp.model.ParkingMachine;
 import cz.cvut.fit.miswe.rdfapp.service.SparqlQueryService;
 import org.apache.jena.graph.Triple;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,14 @@ public class AppController {
     @GetMapping(path = "/parkingMachines/{objectId}")
     public ModelAndView getParkingMachines(@PathVariable String objectId) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("record", sparqlQueryService.getParkingMachine(objectId));
+        ParkingMachine parkingMachine = sparqlQueryService.getParkingMachine(objectId);
+        String objectId1 = parkingMachine.getObjectId();
+        parkingMachine.setObjectId(objectId1.substring(0, objectId1.indexOf('^')));
+        parkingMachine.setPoskyt(parseStringLanguage(parkingMachine.getPoskyt()));
+        parkingMachine.setContainedInPlace(parseStringLanguage(parkingMachine.getContainedInPlace()));
+        parkingMachine.setAddress(parseStringLanguage(parkingMachine.getAddress()));
+        parkingMachine.setBranchCode(parseStringInteger(parkingMachine.getBranchCode()));
+        modelAndView.addObject("record", parkingMachine);
         modelAndView.setViewName("parking-machine-detail");
         return modelAndView;
     }
@@ -69,7 +77,7 @@ public class AppController {
                         subResult.append(" is a ").append(subject.substring(subject.lastIndexOf("/") + 1)).append(".");
                         break;
                     case "http://schema.org/address":
-                        subject = subject.substring(0, subject.lastIndexOf('@'));
+                        subject = parseStringLanguage(subject);
                         if (hadAddress) {
                             subResult.append(", ").append(subject);
                         } else {
@@ -78,16 +86,13 @@ public class AppController {
                         }
                         break;
                     case "http://www.kyrylo.bulat.com/resource/cena":
-                        subject = subject.substring(0, subject.lastIndexOf('@'));
-                        subResult.append(", it's price is ").append(subject).append(".");
+                        subResult.append(", it's price is ").append(parseStringLanguage(subject)).append(".");
                         break;
                     case "http://www.kyrylo.bulat.com/resource/objectid":
-                        subject = subject.substring(0, subject.indexOf("^"));
-                        subResult.append(" Internal object id of this instance is: ").append(subject).append(".");
+                        subResult.append(" Internal object id of this instance is: ").append(parseStringInteger(subject)).append(".");
                         break;
                     case "http://www.kyrylo.bulat.com/resource/openingHours":
-                        subject = subject.substring(0, subject.indexOf("@"));
-                        subResult.append(" Days and hours of work of this instance are ").append(subject).append(".");
+                        subResult.append(" Days and hours of work of this instance are ").append(parseStringLanguage(subject)).append(".");
                         break;
                 }
             }
@@ -98,6 +103,14 @@ public class AppController {
         return modelAndView;
     }
 
+
+    private String parseStringLanguage(String withLanguage) {
+        return withLanguage.substring(0, withLanguage.indexOf("@"));
+    }
+
+    private String parseStringInteger(String integerWithType) {
+        return integerWithType.substring(0, integerWithType.indexOf("^"));
+    }
 
     @Autowired
     public void setSparqlQueryService(SparqlQueryService sparqlQueryService) {
