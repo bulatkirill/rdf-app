@@ -11,7 +11,7 @@ ASK {
   
     ?parkomaty a schema:ParkingFacility;
             schema:containedInPlace ?place;
-  			owl:sameAs ?wc.
+  			skos:related ?wc.
   
   ?place a skos:Concept ;
    skos:notation ?district .

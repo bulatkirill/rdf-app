@@ -3,6 +3,7 @@ PREFIX schema: <http://schema.org/>
 PREFIX kbr: <http://www.kyrylo.bulat.com/resource/>
 PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
 SELECT distinct ?objectId ?stationid
 WHERE {
@@ -13,7 +14,7 @@ WHERE {
   FILTER(?stationid > 5000).
   
   ?parkomaty a schema:ParkingFacility;
-            owl:sameAs ?tridodpad.
+            skos:related ?tridodpad.
 }
 LIMIT 50
 

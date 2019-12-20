@@ -3,6 +3,7 @@ PREFIX schema: <http://schema.org/>
 PREFIX kbr: <http://www.kyrylo.bulat.com/resource/>
 PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX kbrwcp: <http://www.kyrylo.bulat.com/resource/wcprice/> 
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
 CONSTRUCT {
 	?wc a schema:PublicToilet;
@@ -18,7 +19,7 @@ WHERE {
    			kbr:cena ?price.  
   
   	?parkomaty a schema:ParkingFacility;
-              owl:sameAs ?wc;
+              skos:related ?wc;
               schema:address ?parkomatAddress
     
   OPTIONAL {
