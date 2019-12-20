@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/assets :: headerFragment">
+    <title id="pageTitle">Domů</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header">...</div>
+<div class="container">
+    <h1 class="header text-center">Parking machines</h1>
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <div th:if="${records != null and not #lists.isEmpty(records)}">
+                <table class="table table-hover" id="dev-table">
+                    <thead>
+                    <tr>
+                        <th class="col-md-6 col-sm-6">URI</th>
+                        <th class="col-md-6 col-sm-6">Object id</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="record : ${records}">
+                        <tr>
+                            <td style="word-wrap: break-word">
+                                <a href="#" th:href="@{http://localhost:8080/{path}/{objectId}
+                                (objectId=${record.value}, path=${link})}"
+                                   th:text="${record.key}"></a>
+                            </td>
+                            <td th:text="${record.value}">...</td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+            <div th:unless="${records != null and not #lists.isEmpty(records)}">
+                Žádný záznam
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

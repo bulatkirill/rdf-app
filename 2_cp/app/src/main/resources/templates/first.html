@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/assets :: headerFragment">
+    <title id="pageTitle">First Sparql query</title>
+</head>
+<body onload="onStart()">
+<script type="application/javascript">
+    function onStart() {
+        code = "\n" +
+            "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+            "PREFIX schema: <http://schema.org/>\n" +
+            "PREFIX kbr: <http://www.kyrylo.bulat.com/resource/>\n" +
+            "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +
+            "PREFIX kbrwcp: <http://www.kyrylo.bulat.com/resource/wcprice/> \n" +
+            "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\n" +
+            "\n" +
+            "SELECT\n" +
+            "?trashtypename (if(count(?tridodpad) > 4000, \"More than 4000\", count(?tridodpad)) as ?count)\n" +
+            "WHERE {\n" +
+            "  ?tridodpad a schema:Place;\n" +
+            "        \tkbr:objectid ?objectId;\n" +
+            "         \tkbr:trashtypename ?trashtypename;\n" +
+            "  \t\t\tkbr:containertype ?containertype.\n" +
+            "\n" +
+            "  ?trashtypename a skos:Concept;\n" +
+            "  \t\t\t\t skos:notation ?notation.\n" +
+            "\n" +
+            "}\n" +
+            "GROUP BY ?trashtypename\n" +
+            "HAVING(count(?tridodpad) > 1500)\n" +
+            "ORDER BY DESC(count(?tridodpad))\n" +
+            "\n" +
+            "\n" +
+            "# select tritotpad instances and group them by type of trash. Select only trash types that have more than 1500 instances"
+        document.getElementById("code").innerText = code;
+    }
+</script>
+<div th:replace="fragments/header :: header">...</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <div th:if="${records != null and not #lists.isEmpty(records)}">
+                <table class="table table-hover" id="dev-table">
+                    <thead>
+                    <tr>
+                        <th class="col-md-6 col-sm-6">Trash type</th>
+                        <th class="col-md-6 col-sm-6">Count</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="record : ${records}">
+                        <tr>
+                            <td style="word-wrap: break-word" th:text="${record.key}"></td>
+                            <td th:text="${record.value}">...</td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+            <div th:unless="${records != null and not #lists.isEmpty(records)}">
+                No records in response to a query
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <p>Executed query:</p>
+        </div>
+        <div class="col-md-10">
+            <p id="code" style="border: 1px solid #ccc;"></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

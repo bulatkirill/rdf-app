@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/assets :: headerFragment">
+    <title id="pageTitle">First Sparql query</title>
+</head>
+<body onload="onStart()">
+<script type="application/javascript">
+    function onStart() {
+        code = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+            "PREFIX schema: <http://schema.org/>\n" +
+            "PREFIX kbr: <http://www.kyrylo.bulat.com/resource/>\n" +
+            "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +
+            "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n" +
+            "\n" +
+            "SELECT distinct ?objectId ?stationid\n" +
+            "WHERE {\n" +
+            "  ?tridodpad a schema:Place;\n" +
+            "        \tkbr:objectid ?objectId;\n" +
+            "      \t\tkbr:stationid ?stationid;\t\n" +
+            "  .\n" +
+            "  FILTER(?stationid > 5000).\n" +
+            "  \n" +
+            "  ?parkomaty a schema:ParkingFacility;\n" +
+            "            skos:related ?tridodpad.\n" +
+            "}\n" +
+            "LIMIT 50\n" +
+            "\n" +
+            "# Find all tridodpad instances that are close to parking machine and their station id is higher then 5000";
+        document.getElementById("code").innerText = code;
+    }
+</script>
+<div th:replace="fragments/header :: header">...</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <div th:if="${records != null and not #lists.isEmpty(records)}">
+                <table class="table table-hover" id="dev-table">
+                    <thead>
+                    <tr>
+                        <th class="col-md-6 col-sm-6">Object id</th>
+                        <th class="col-md-6 col-sm-6">Station id</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="record : ${records}">
+                        <tr>
+                            <td style="word-wrap: break-word" th:text="${record.key}"></td>
+                            <td th:text="${record.value}">...</td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+            <div th:unless="${records != null and not #lists.isEmpty(records)}">
+                No records in response to a query
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <p>Executed query:</p>
+        </div>
+        <div class="col-md-10">
+            <p id="code" style="border: 1px solid #ccc;"></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Entity Type</title>
+</head>
+<body>
+<tr>
+    <td th:fragment="entityType (entityType)" th:switch="${entityType}">
+                                <span th:case="ministry" class="glyphicon glyphicon-home"
+                                      title="Ministerstvo"></span>
+        <span th:case="company" class="glyphicon glyphicon-briefcase"
+              title="Firma"></span>
+        <span th:case="individual" class="glyphicon glyphicon-user"
+              title="Podnikatel"></span>
+        <span th:case="other" class="glyphicon glyphicon-comment"
+              title="Ostatní"></span>
+    </td>
+</tr>
+</body>
+</html>

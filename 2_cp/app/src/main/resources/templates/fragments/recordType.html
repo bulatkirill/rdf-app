@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Record Type</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td th:fragment="recordType (recordType)" th:switch="${recordType}">
+        <span th:case="payment" class="glyphicon glyphicon-eur"
+              title="Platba"></span>
+            <span th:case="invoice" class="glyphicon glyphicon-file"
+                  title="Faktura"></span>
+            <span th:case="contract" class="glyphicon glyphicon-book"
+                  title="Smlouva"></span>
+            <span th:case="order" class="glyphicon glyphicon-barcode"
+                  title="Objednavka"></span>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
