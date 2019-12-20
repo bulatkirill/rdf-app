@@ -40,7 +40,7 @@
                     <th>Container type</th>
                     <td th:text="${record.containerType}">...</td>
                 </tr>
-                <tr th:if="${record.relatedInstances != null and not #lists.isEmpty(record.relatedInstances)}">
+                <tr th:if="${record.relatedInstances != null and not #maps.isEmpty(record.relatedInstances)}">
                     <th>Parkomaty vedle nachazehící</th>
                     <td>
                         <ul>
