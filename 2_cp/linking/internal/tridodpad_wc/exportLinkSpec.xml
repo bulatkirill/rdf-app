@@ -43,7 +43,7 @@
 
 				</RestrictTo>
 			</TargetDataset>
-			<LinkageRule linkType="owl:sameAs">
+			<LinkageRule linkType="skos:related">
 				<Aggregate id="average1" required="false" weight="1" type="average">
 					<Compare id="latitude_num" required="false" weight="1" metric="num" threshold="1.0E-4" indexing="true">
 						<Input id="latitude1" path="/schema:geo/schema:latitude"/>

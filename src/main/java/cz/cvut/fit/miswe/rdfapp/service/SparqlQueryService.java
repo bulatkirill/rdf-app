@@ -23,7 +23,5 @@ public interface SparqlQueryService {
 
     Map<RDFNode, RDFNode> getPublicToilets();
 
-    Map<RDFNode, RDFNode> getWasteBins();
-
     TridOdpad getTridOdpad(String objectId);
 }

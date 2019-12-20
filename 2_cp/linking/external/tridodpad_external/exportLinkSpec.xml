@@ -32,7 +32,7 @@
 		</Dataset>
 	</DataSources>
 	<Interlinks>
-		<Interlink id="tridodpad_external">
+		<Interlink id="parkomaty_external1">
 			<SourceDataset dataSource="tridodpad" var="a" typeUri="http://schema.org/Place">
 				<RestrictTo>
 
@@ -43,7 +43,7 @@
 
 				</RestrictTo>
 			</TargetDataset>
-			<LinkageRule linkType="owl:sameAs">
+			<LinkageRule linkType="skos:related">
 				<Aggregate id="average1" required="false" weight="1" type="average">
 					<Compare id="lat_num" required="false" weight="1" metric="num" threshold="1.9E-4" indexing="true">
 						<Input id="lat1" path="/schema:geo/schema:latitude"/>

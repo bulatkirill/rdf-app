@@ -13,13 +13,6 @@ import java.util.*;
 @Service
 public class SparqlQueryServiceImpl implements SparqlQueryService {
 
-    public static final String WC = "wc";
-    public static final String OBJECT_ID = "objectId";
-    public static final String PARKING_MACHINES_QUERY = String.format(
-            "SELECT ?%s ?%s WHERE {?%s a <http://schema.org/ParkingFacility>; " +
-                    "<http://www.kyrylo.bulat.com/resource/objectid> ?%s}" +
-                    " ORDER BY ASC(?%s)", WC, OBJECT_ID, WC, OBJECT_ID, OBJECT_ID);
-
     public static final String RECORDS_QUERY =
             "SELECT ?uri ?objectId WHERE {?uri a <http://schema.org/%s>; " +
                     "<http://www.kyrylo.bulat.com/resource/objectid> ?objectId}" +
@@ -260,8 +253,4 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
         return null;
     }
 
-    @Override
-    public Map<RDFNode, RDFNode> getWasteBins() {
-        return null;
-    }
 }

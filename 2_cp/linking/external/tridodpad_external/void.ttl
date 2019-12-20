@@ -3,9 +3,10 @@
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix void: <http://rdfs.org/ns/void#> .
 @prefix : <#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 :parkomaty_tridodpad a void:Linkset;
     void:target :parkomaty;
     void:target :tridodpad;
 	void:triples 55;
-    void:linkPredicate owl:sameAs .
+    void:linkPredicate skos:related .
