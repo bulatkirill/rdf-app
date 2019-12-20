@@ -19,21 +19,25 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
                     " ORDER BY ASC(?objectId)";
 
     public static final String PARKING_MACHINE_QUERY =
-            "SELECT ?parkingMachine ?objectId ?poskyt ?containedInPlace ?address ?branchCode " +
-                    "WHERE {?parkingMachine a <http://schema.org/ParkingFacility>; " +
-                    "<http://www.kyrylo.bulat.com/resource/objectid> %s;" +
-                    "<http://www.kyrylo.bulat.com/resource/objectid> ?objectId;" +
-                    "<http://www.kyrylo.bulat.com/resource/poskyt> ?poskytovatel;" +
-                    "<http://schema.org/containedInPlace> ?containedInPlaceHelp;" +
-                    "<http://schema.org/address> ?address;" +
-                    "<http://schema.org/branchCode> ?branchCode." +
-                    "" +
-                    "?poskytovatel a <http://schema.org/Organization>;" +
-                    "<http://schema.org/identifier> ?poskyt." +
-
-                    " ?containedInPlaceHelp a <http://www.w3.org/2004/02/skos/core#Concept>;" +
-                    " <http://www.w3.org/2004/02/skos/core#notation> ?containedInPlace." +
-                    "}";
+            "SELECT distinct ?parkingMachine ?objectId ?poskyt ?containedInPlace ?address ?branchCode ?relatedTo\n" +
+                    "WHERE\n" +
+                    "  { ?parkingMachine\n" +
+                    "              a                     <http://schema.org/ParkingFacility> ;\n" +
+                    "              <http://www.kyrylo.bulat.com/resource/objectid>  %s ;\n" +
+                    "              <http://www.kyrylo.bulat.com/resource/objectid>  ?objectId ;\n" +
+                    "              <http://www.kyrylo.bulat.com/resource/poskyt>  ?poskytovatel ;\n" +
+                    "              <http://schema.org/containedInPlace>  ?containedInPlaceHelp ;\n" +
+                    "              <http://schema.org/address>  ?address ;\n" +
+                    "              <http://schema.org/branchCode>  ?branchCode .\n" +
+                    "    ?poskytovatel\n" +
+                    "              a                     <http://schema.org/Organization> ;\n" +
+                    "              <http://schema.org/identifier>  ?poskyt .\n" +
+                    "    OPTIONAL {?parkingMachine\n" +
+                    "              <http://www.w3.org/2004/02/skos/core#related> ?relatedTo. }\n" +
+                    "    ?containedInPlaceHelp\n" +
+                    "              a                     <http://www.w3.org/2004/02/skos/core#Concept> ;\n" +
+                    "              <http://www.w3.org/2004/02/skos/core#notation>  ?containedInPlace\n" +
+                    "  }";
 
     public static final String TRID_ODPAD_QUERY =
             "SELECT ?uri ?objectId ?stationId ?trashTypeName ?celaningfrequencycode ?containerType " +
@@ -52,7 +56,7 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
                     " <http://www.w3.org/2004/02/skos/core#notation> ?containerType." +
                     "}";
 
-    public static final String SPARQL_API = "http://localhost:3030/all1/sparql";
+    public static final String SPARQL_API = "http://localhost:3030/all2/sparql";
 
     private static final String FIRST = "SELECT\n" +
             "?trashtypename (if(count(?tridodpad) > 4000, \"More than 4000\", count(?tridodpad)) as ?count)\n" +
@@ -79,7 +83,7 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
             "  FILTER(?stationid > 5000).\n" +
             "  \n" +
             "  ?parkomaty a schema:ParkingFacility;\n" +
-            "            owl:sameAs ?tridodpad.\n" +
+            "            skos:related ?tridodpad.\n" +
             "}\n" +
             "LIMIT 50\n";
 
@@ -97,7 +101,7 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
             "   \t\t\tkbr:cena ?priceEntity.  \n" +
             "  \n" +
             "  \t?parkomaty a schema:ParkingFacility;\n" +
-            "              owl:sameAs ?wc;\n" +
+            "              skos:related ?wc;\n" +
             "              schema:address ?parkomatAddress.\n" +
             "  \t?priceEntity a skos:Concept ;\n" +
             "  \t\tskos:notation ?price .\n" +
@@ -160,6 +164,10 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
                 result.setContainedInPlace(solution.get("containedInPlace").toString());
                 result.setAddress(solution.get("address").toString());
                 result.setBranchCode(solution.get("branchCode").toString());
+                RDFNode relatedTo = solution.get("relatedTo");
+                if (relatedTo != null) {
+                    result.getRelatedInstances().add(relatedTo.toString());
+                }
             }
         }
         return result;

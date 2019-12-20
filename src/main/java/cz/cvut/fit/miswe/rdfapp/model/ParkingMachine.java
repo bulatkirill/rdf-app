@@ -1,12 +1,20 @@
 package cz.cvut.fit.miswe.rdfapp.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ParkingMachine {
-    String uri;
-    String objectId;
-    String poskyt;
-    String containedInPlace;
-    String address;
-    String branchCode;
+    private String uri;
+    private String objectId;
+    private String poskyt;
+    private String containedInPlace;
+    private String address;
+    private String branchCode;
+    private List<String> relatedInstances;
+
+    public ParkingMachine() {
+        relatedInstances = new ArrayList<>();
+    }
 
     public String getUri() {
         return uri;
@@ -54,5 +62,13 @@ public class ParkingMachine {
 
     public void setObjectId(String objectId) {
         this.objectId = objectId;
+    }
+
+    public List<String> getRelatedInstances() {
+        return relatedInstances;
+    }
+
+    public void setRelatedInstances(List<String> relatedInstances) {
+        this.relatedInstances = relatedInstances;
     }
 }

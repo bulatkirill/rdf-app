@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:li="http://www.thymeleaf.org" xmlns:td="http://www.thymeleaf.org">
 <head th:replace="fragments/assets :: headerFragment">
     <title id="pageTitle">Detail zaznamu</title>
 </head>
@@ -39,6 +39,18 @@
                 <tr th:if="${record.branchCode != null}">
                     <th>Branch code</th>
                     <td th:text="${record.branchCode}">...</td>
+                </tr>
+                <tr th:if="${record.relatedInstances != null and not #lists.isEmpty(record.relatedInstances)}">
+                    <th>Triděný odpad vedle nachazehící</th>
+                    <td>
+                        <ul>
+                            <li th:each="relatedPlace : ${record.relatedInstances}">
+                                <a href="#" th:href="@{http://localhost:8080/tridOdpads/{objectId}
+                    (objectId=${#strings.substring(relatedPlace, #strings.indexOf(relatedPlace, 'd/')+2)})}"
+                                   th:text="${relatedPlace}"></a>
+                            </li>
+                        </ul>
+                    </td>
                 </tr>
             </table>
         </div>
