@@ -1,0 +1,13 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX schema: <http://schema.org/>
+PREFIX kbr: <http://www.kyrylo.bulat.com/resource/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+DESCRIBE ?x
+WHERE {
+  ?x a schema:Place.
+} LIMIT 50
+
+# describe all entities x, that have schema:Place type
