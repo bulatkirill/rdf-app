@@ -44,18 +44,24 @@ function parseDataWc(dataset, resultFileName) {
         rdfBuilder.addConceptToLookup(KB_LOOKUPS_WC_PRICE, cenaSubject, cena, cena);
 
         const subject = `${KB_RESOURCE_WC}:${index}`;
-        rdfBuilder.addStatement(subject, {
-            'a': 'schema:PublicToilet',
-            'kbr:objectid': properties['OBJECTID'],
-            'schema:address': `"${escapeInvalidCharacters(properties['ADRESA'])}"@cs`,
-            'kbr:openingHours': `"${escapeInvalidCharacters(properties['OTEVRENO'])}"@cs`,
-            'kbr:cena': cenaSubject,
-            'schema:geo': {
-                'a': 'schema:GeoCoordinates',
-                'schema:latitude': latitude,
-                'schema:longitude': longitude
-            }
-        });
+        const statements = {};
+        statements['a'] = 'schema:PublicToilet';
+        statements['kbr:objectid'] = properties['OBJECTID'];
+        let address = escapeInvalidCharacters(properties['ADRESA']);
+        if (address !== " ") {
+            statements['schema:address'] = `"${address}"@cs`;
+        }
+        let openingHours = escapeInvalidCharacters(properties['OTEVRENO']);
+        if (openingHours !== " ") {
+            statements['kbr:openingHours'] = `"${openingHours}"@cs`;
+        }
+        statements['kbr:cena'] = cenaSubject;
+        statements['schema:geo'] = {
+            'a': 'schema:GeoCoordinates',
+            'schema:latitude': latitude,
+            'schema:longitude': longitude
+        };
+        rdfBuilder.addStatement(subject, statements);
     });
     fs.writeFileSync(resultFileName, rdfBuilder.build());
 }
