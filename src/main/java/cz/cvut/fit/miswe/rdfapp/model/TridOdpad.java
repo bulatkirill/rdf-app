@@ -1,13 +1,21 @@
 package cz.cvut.fit.miswe.rdfapp.model;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class TridOdpad {
 
-    String uri;
-    String objectId;
-    String stationId;
-    String trashTypeName;
-    String cleaningFrequencyCode;
-    String containerType;
+    private String uri;
+    private String objectId;
+    private String stationId;
+    private String trashTypeName;
+    private String cleaningFrequencyCode;
+    private String containerType;
+    private Map<String, String> relatedInstances;
+
+    public TridOdpad() {
+        relatedInstances = new LinkedHashMap<>();
+    }
 
     public String getUri() {
         return uri;
@@ -55,5 +63,13 @@ public class TridOdpad {
 
     public void setContainerType(String containerType) {
         this.containerType = containerType;
+    }
+
+    public Map<String, String> getRelatedInstances() {
+        return relatedInstances;
+    }
+
+    public void setRelatedInstances(Map<String, String> relatedInstances) {
+        this.relatedInstances = relatedInstances;
     }
 }

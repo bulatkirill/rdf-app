@@ -46,8 +46,8 @@
                         <ul>
                             <li th:each="relatedPlace : ${record.relatedInstances}">
                                 <a href="#" th:href="@{http://localhost:8080/tridOdpads/{objectId}
-                    (objectId=${#strings.substring(relatedPlace, #strings.indexOf(relatedPlace, 'd/')+2)})}"
-                                   th:text="${relatedPlace}"></a>
+                    (objectId=${relatedPlace.value})}"
+                                   th:text="${relatedPlace.key}"></a>
                             </li>
                         </ul>
                     </td>

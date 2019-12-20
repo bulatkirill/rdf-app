@@ -19,7 +19,7 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
                     " ORDER BY ASC(?objectId)";
 
     public static final String PARKING_MACHINE_QUERY =
-            "SELECT distinct ?parkingMachine ?objectId ?poskyt ?containedInPlace ?address ?branchCode ?relatedTo\n" +
+            "SELECT distinct ?parkingMachine ?objectId ?poskyt ?containedInPlace ?address ?branchCode ?relatedTo ?relatedToObjectId\n" +
                     "WHERE\n" +
                     "  { ?parkingMachine\n" +
                     "              a                     <http://schema.org/ParkingFacility> ;\n" +
@@ -33,28 +33,33 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
                     "              a                     <http://schema.org/Organization> ;\n" +
                     "              <http://schema.org/identifier>  ?poskyt .\n" +
                     "    OPTIONAL {?parkingMachine\n" +
-                    "              <http://www.w3.org/2004/02/skos/core#related> ?relatedTo. }\n" +
+                    "              <http://www.w3.org/2004/02/skos/core#related> ?relatedTo. " +
+                    " ?relatedTo <http://www.kyrylo.bulat.com/resource/objectid> ?relatedToObjectId }\n" +
                     "    ?containedInPlaceHelp\n" +
                     "              a                     <http://www.w3.org/2004/02/skos/core#Concept> ;\n" +
                     "              <http://www.w3.org/2004/02/skos/core#notation>  ?containedInPlace\n" +
                     "  }";
 
     public static final String TRID_ODPAD_QUERY =
-            "SELECT ?uri ?objectId ?stationId ?trashTypeName ?celaningfrequencycode ?containerType " +
-                    "WHERE {?uri a <http://schema.org/Place>; " +
-                    "<http://www.kyrylo.bulat.com/resource/objectid> %s;" +
-                    "<http://www.kyrylo.bulat.com/resource/objectid> ?objectId;" +
-                    "<http://www.kyrylo.bulat.com/resource/stationid> ?stationId;" +
-                    "<http://www.kyrylo.bulat.com/resource/trashtypename> ?trashTypeNameHelp;" +
-                    "<http://www.kyrylo.bulat.com/resource/celaningfrequencycode> ?celaningfrequencycode;" +
-                    "<http://www.kyrylo.bulat.com/resource/containertype> ?containerTypeHelp." +
-                    "" +
-                    " ?trashTypeNameHelp a <http://www.w3.org/2004/02/skos/core#Concept>;" +
-                    " <http://www.w3.org/2004/02/skos/core#notation> ?trashTypeName." +
-
-                    " ?containerTypeHelp a <http://www.w3.org/2004/02/skos/core#Concept>;" +
-                    " <http://www.w3.org/2004/02/skos/core#notation> ?containerType." +
-                    "}";
+            "SELECT  ?uri ?objectId ?stationId ?trashTypeName ?celaningfrequencycode ?containerType ?relatedTo ?relatedToObjectId\n" +
+                    "WHERE\n" +
+                    "  { ?uri      a                     <http://schema.org/Place> ;\n" +
+                    "              <http://www.kyrylo.bulat.com/resource/objectid>  %s ;\n" +
+                    "              <http://www.kyrylo.bulat.com/resource/objectid>  ?objectId ;\n" +
+                    "              <http://www.kyrylo.bulat.com/resource/stationid>  ?stationId ;\n" +
+                    "              <http://www.kyrylo.bulat.com/resource/trashtypename>  ?trashTypeNameHelp ;\n" +
+                    "              <http://www.kyrylo.bulat.com/resource/celaningfrequencycode>  ?celaningfrequencycode ;\n" +
+                    "              <http://www.kyrylo.bulat.com/resource/containertype>  ?containerTypeHelp .\n" +
+                    "    ?trashTypeNameHelp\n" +
+                    "              a                     <http://www.w3.org/2004/02/skos/core#Concept> ;\n" +
+                    "              <http://www.w3.org/2004/02/skos/core#notation>  ?trashTypeName .\n" +
+                    "    ?containerTypeHelp\n" +
+                    "              a                     <http://www.w3.org/2004/02/skos/core#Concept> ;\n" +
+                    "              <http://www.w3.org/2004/02/skos/core#notation>  ?containerType\n" +
+                    "    OPTIONAL\n" +
+                    "      { ?relatedTo  <http://www.w3.org/2004/02/skos/core#related>  ?uri;" +
+                    "<http://www.kyrylo.bulat.com/resource/objectid> ?relatedToObjectId }\n" +
+                    "  }";
 
     public static final String SPARQL_API = "http://localhost:3030/all2/sparql";
 
@@ -166,7 +171,7 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
                 result.setBranchCode(solution.get("branchCode").toString());
                 RDFNode relatedTo = solution.get("relatedTo");
                 if (relatedTo != null) {
-                    result.getRelatedInstances().add(relatedTo.toString());
+                    result.getRelatedInstances().put(relatedTo.toString(), parseStringInteger(solution.get("relatedToObjectId").toString()));
                 }
             }
         }
@@ -188,6 +193,10 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
                 result.setTrashTypeName(solution.get("trashTypeName").toString());
                 result.setCleaningFrequencyCode(solution.get("celaningfrequencycode").toString());
                 result.setContainerType(solution.get("containerType").toString());
+                RDFNode relatedTo = solution.get("relatedTo");
+                if (relatedTo != null) {
+                    result.getRelatedInstances().put(relatedTo.toString(), parseStringInteger(solution.get("relatedToObjectId").toString()));
+                }
             }
         }
         return result;
@@ -259,6 +268,10 @@ public class SparqlQueryServiceImpl implements SparqlQueryService {
     @Override
     public Map<RDFNode, RDFNode> getPublicToilets() {
         return null;
+    }
+
+    private String parseStringInteger(String integerWithType) {
+        return integerWithType.substring(0, integerWithType.indexOf("^"));
     }
 
 }

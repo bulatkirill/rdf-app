@@ -40,6 +40,19 @@
                     <th>Container type</th>
                     <td th:text="${record.containerType}">...</td>
                 </tr>
+                <tr th:if="${record.relatedInstances != null and not #lists.isEmpty(record.relatedInstances)}">
+                    <th>Parkomaty vedle nachazehící</th>
+                    <td>
+                        <ul>
+                            <li th:each="relatedPlace : ${record.relatedInstances}">
+                                <a href="#" th:href="@{http://localhost:8080/parkingMachines/{objectId}
+                    (objectId=${relatedPlace.value})}"
+                                   th:text="${relatedPlace.key}"></a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
             </table>
         </div>
     </div>

@@ -1,7 +1,7 @@
 package cz.cvut.fit.miswe.rdfapp.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class ParkingMachine {
     private String uri;
@@ -10,10 +10,10 @@ public class ParkingMachine {
     private String containedInPlace;
     private String address;
     private String branchCode;
-    private List<String> relatedInstances;
+    private Map<String, String> relatedInstances;
 
     public ParkingMachine() {
-        relatedInstances = new ArrayList<>();
+        relatedInstances = new LinkedHashMap<>();
     }
 
     public String getUri() {
@@ -64,11 +64,11 @@ public class ParkingMachine {
         this.objectId = objectId;
     }
 
-    public List<String> getRelatedInstances() {
+    public Map<String, String> getRelatedInstances() {
         return relatedInstances;
     }
 
-    public void setRelatedInstances(List<String> relatedInstances) {
+    public void setRelatedInstances(Map<String, String> relatedInstances) {
         this.relatedInstances = relatedInstances;
     }
 }
