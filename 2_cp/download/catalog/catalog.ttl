@@ -1,0 +1,37 @@
+@prefix rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix kbc:	<https://kyrylo.bulat.com/catalog/> .
+@prefix kb:		<https://kyrylo.bulat.com/> .
+@prefix foaf:	<http://xmlns.com/foaf/0.1/> .
+@prefix dcat:	<http://www.w3.org/ns/dcat#> .
+@prefix dct:	<http://purl.org/dc/terms/> .
+
+kb:id a foaf:Person ;
+	foaf:name "Kyrylo Bulat"@cs .
+	
+kbc:MISWE 
+	a dcat:Catalog ;
+	dct:title "Katalog otevřených dat pro semestrální práci z předmětu MI-SWE"@cs ;
+	dct:description	"Katalog otevřených dat pro semestrální práci z předmětu MI-SWE"@cs ;
+	dct:publisher kb:id ;
+	dcat:dataset kbc:parkomaty, kbc:tridopdad, kbc:wc .
+
+kbc:parkomaty 
+	a dcat:Dataset ;
+	dct:title "Parkomaty v Praze"@cs ;
+	dct:description	"Seznam parkomatů ve městě Praha."@cs ;
+	dcat:keyword "parkomaty"@cs ;
+	dct:publisher kb:id .
+	
+kbc:tridodpad 
+	a dcat:Dataset ;
+	dct:title "Třiděný odpad Praha"@cs ;
+	dct:description	"Seznam košů pro třiděný odpad v Praze."@cs ;
+	dcat:keyword "tridodpad"@cs ;
+	dct:publisher kb:id .
+	
+kbc:wc 
+	a dcat:Dataset ;
+	dct:title "Veřejné záchody Praha."@cs ;
+	dct:description	"Seznam veřejných záchodů v Praze."@cs ;
+	dcat:keyword "wc"@cs ;
+	dct:publisher kb:id .
